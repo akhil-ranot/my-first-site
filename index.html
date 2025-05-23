@@ -14,32 +14,31 @@
     body { padding-top: 60px; }
     table img { width: 40px; height: auto; border-radius: 4px; }
       /* Custom bigger gap */
-  .custom-gap {
-    gap: 4rem; /* Increase gap between items */
-    display: flex; /* Make sure gap works */
-  }
+    .custom-gap {
+      gap: 4rem; /* Increase gap between items */
+      display: flex; /* Make sure gap works */
+    }
 
-  /* Navbar nav must use flex for gap */
-  .navbar-nav {
-    display: flex;
-  }
+    /* Navbar nav must use flex for gap */
+    .navbar-nav {
+      display: flex;
+    }
 
-  /* Active link highlight */
-  .nav-link.active {
-    color: #0d6efd !important; /* Bootstrap primary blue highlight */
-    font-weight: 600;
-  }
+    /* Active link highlight */
+    .nav-link.active {
+      color: #fff !important; /* Bootstrap primary blue highlight */
+      font-weight: 600;
+    }
 
-  /* Dim non-active links */
-  .nav-link:not(.active):not(.disabled) {
-    color: rgba(255, 255, 255, 0.6); /* dimmed white */
-    transition: color 0.3s ease;
-  }
+    /* Dim non-active links */
+    .nav-link:not(.active):not(.disabled) {
+      color: rgba(255, 255, 255, 0.6); /* dimmed white */
+      transition: color 0.3s ease;
+    }
 
-  .nav-link:not(.active):not(.disabled):hover {
-    color: #fff; /* brighten on hover */
-  }
-  
+    .nav-link:not(.active):not(.disabled):hover {
+      color: #fff; /* brighten on hover */
+    }
   </style>
 </head>
 <body>
@@ -57,9 +56,6 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#" onclick="navigate('header')">Pricing</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
         </li>
       </ul>
     </div>
@@ -87,44 +83,7 @@
         if (status === "error") {
           $("#main-content").html("<p class='text-danger'>Page not found.</p>");
         }
-        if (page === 'home') {
-          initDataTable();
-        }
       });
-    }
-
-    function initDataTable() {
-      $.getJSON('https://restcountries.com/v3.1/all')
-        .done(function(data) {
-          let rows = data.map(country => {
-            const flag = `<img src="${country.flags.svg}" alt="Flag of ${country.name.common}">`;
-            const name = country.name.common || '-';
-            const capital = country.capital ? country.capital[0] : '-';
-            const region = country.region || '-';
-            const population = country.population?.toLocaleString() || '0';
-
-            return `
-              <tr>
-                <td>${flag}</td>
-                <td>${name}</td>
-                <td>${capital}</td>
-                <td>${region}</td>
-                <td class="text-end">${population}</td>
-              </tr>
-            `;
-          }).join('');
-
-          $('#countriesTable tbody').html(rows);
-          $('#countriesTable').DataTable({
-            responsive: true,
-            pageLength: 10,
-            lengthMenu: [5, 10, 25, 50],
-            order: [[1, 'asc']],
-          });
-        })
-        .fail(function() {
-          alert('Failed to fetch countries data.');
-        });
     }
 
     // Load home page on start
